@@ -19,14 +19,12 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String errorMessage;
 
-        System.out.println("로그인 실패!");
 
         if (exception instanceof UsernameNotFoundException) {
             errorMessage = "존재하지 않는 계정입니다. 회원가입 후 로그인해주세요.";
         } else if (exception instanceof BadCredentialsException) {
             errorMessage = "비밀번호가 맞지 않습니다.";
         } else if (exception instanceof InternalAuthenticationServiceException) {
-            System.out.println("에러 발생!");
             errorMessage = exception.getMessage();
         } else {
             errorMessage = "알 수 없는 이유로 로그인에 실패하였습니다. 관리자에게 문의하세요.";
