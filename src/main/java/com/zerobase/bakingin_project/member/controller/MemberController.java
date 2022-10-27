@@ -5,6 +5,7 @@ import com.zerobase.bakingin_project.member.service.MemberService;
 import com.zerobase.bakingin_project.member.validator.RegisterValidatorInher.CheckEmailValidator;
 import com.zerobase.bakingin_project.member.validator.RegisterValidatorInher.CheckPasswordMatchValidator;
 import com.zerobase.bakingin_project.member.validator.RegisterValidatorInher.CheckUserIdValidator;
+import com.zerobase.bakingin_project.member.validator.ValidateHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +47,7 @@ public class MemberController {
             /* 회원가입 실패시 입력 데이터 유지 */
             model.addAttribute("memberInput", memberInput);
             /* 유효성 검사를 통과하지 못한 필드와 message 모델에 매핑해서 뷰로 전달 */
-            Map<String, String> validateMap = memberService.validateHandling(errors);
+            Map<String, String> validateMap = ValidateHandler.validateHandling(errors);
             /* map.keySet() -> 모든 key 값 가져온 뒤 반복문을 통해 키와 에러 메세지로 매핑 */
             for (String key : validateMap.keySet()) {
                 model.addAttribute(key, validateMap.get(key));

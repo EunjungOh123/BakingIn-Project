@@ -1,6 +1,6 @@
 package com.zerobase.bakingin_project.member.exception;
 
-import com.zerobase.bakingin_project.member.type.ErrorCode;
+import com.zerobase.bakingin_project.member.type.MemberErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberStatusException extends RuntimeException{
-    private ErrorCode errorCode;
+    private MemberErrorCode memberErrorCode;
     private String message;
 
-    public MemberStatusException(ErrorCode errorCode){
-        this.errorCode = errorCode;
-        this.message = errorCode.getValue();
+    public MemberStatusException(MemberErrorCode memberErrorCode){
+        this.memberErrorCode = memberErrorCode;
+        this.message = memberErrorCode.getValue();
     }
 }

@@ -1,10 +1,6 @@
 package com.zerobase.bakingin_project.member.type;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
 public enum MemberStatus {
 
 
@@ -12,26 +8,24 @@ public enum MemberStatus {
      * 현재 가입 요청중
      */
 
-    REQUEST("USER_STATUS_REQ"),
+    REQUEST,
 
 
     /**
      * 현재 이용중인 상태
      */
 
-    AVAILABLE("USER_STATUS_AVAILABLE"),
+    AVAILABLE,
 
     /**
      * 현재 정지된 상태
      */
 
-    STOP("USER_STATUS_STOP"),
+    STOP,
 
     /**
      * 현재 탈퇴된 회원
      */
 
-    WITHDRAW("USER_STATUS_WITHDRAW");
-
-    private final String value;
+    WITHDRAW
 }

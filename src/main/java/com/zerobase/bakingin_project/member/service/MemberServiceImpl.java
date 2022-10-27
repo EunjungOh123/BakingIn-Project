@@ -8,11 +8,6 @@ import com.zerobase.bakingin_project.member.type.MemberStatus;
 import com.zerobase.bakingin_project.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -42,13 +37,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public Map<String, String> validateHandling(Errors errors) {
-        Map<String, String> validatorResult = new HashMap<>();
-
-        for (FieldError error : errors.getFieldErrors()) {
-            String validKeyName = "valid_" + error.getField();
-            validatorResult.put(validKeyName, error.getDefaultMessage());
-        }
-        return validatorResult;
+    public boolean emailAuth(String emailAuthKey) {
+        return false;
     }
 }

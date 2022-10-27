@@ -3,7 +3,7 @@ package com.zerobase.bakingin_project.member.service;
 import com.zerobase.bakingin_project.member.entity.Member;
 import com.zerobase.bakingin_project.member.exception.MemberStatusException;
 import com.zerobase.bakingin_project.member.repository.MemberRepository;
-import com.zerobase.bakingin_project.member.type.ErrorCode;
+import com.zerobase.bakingin_project.member.type.MemberErrorCode;
 import com.zerobase.bakingin_project.member.type.MemberRole;
 import com.zerobase.bakingin_project.member.type.MemberStatus;
 import lombok.RequiredArgsConstructor;
@@ -45,11 +45,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Member member = optionalMember.get();
 
         if(MemberStatus.STOP == (member.getStatus())) {
-            throw new MemberStatusException(ErrorCode.USER_STATUS_STOP);
+            throw new MemberStatusException(MemberErrorCode.USER_STATUS_STOP);
         }
 
         if(MemberStatus.WITHDRAW == member.getStatus()) {
-            throw new MemberStatusException(ErrorCode.USER_STATUS_WITHDRAW);
+            throw new MemberStatusException(MemberErrorCode.USER_STATUS_WITHDRAW);
         }
         /* RoleType에 따라 권한을 부여*/
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
