@@ -19,7 +19,7 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
     private final CheckCategoryName checkCategoryName;
 
-    @GetMapping("/admin/category/list")
+    @GetMapping("/admin/category/recipe-list")
     public String categoryList(Model model) {
 
         List<RecipeCategoryDto> list = categoryService.list();
@@ -36,6 +36,20 @@ public class AdminCategoryController {
             categoryService.add(categoryDto);
         }
 
-        return "redirect:/admin/category/list";
+        return "redirect:/admin/category/recipe-list";
+    }
+
+    @PostMapping("/admin/category/update")
+    public String update(InputRecipeCategory categoryDto) {
+        categoryService.update(categoryDto);
+        return "redirect:/admin/category/recipe-list";
+    }
+
+    @PostMapping("/admin/category/delete")
+    public String delete(InputRecipeCategory categoryDto) {
+
+        categoryService.delete(categoryDto.getId());
+
+        return "redirect:/admin/category/recipe-list";
     }
 }
