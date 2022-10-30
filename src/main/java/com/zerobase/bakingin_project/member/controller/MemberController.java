@@ -73,4 +73,13 @@ public class MemberController {
         model.addAttribute("exception", exception);
         return "member/login";
     }
+    @GetMapping("/email-auth")
+    public String emailAuth (
+            @RequestParam String id, Model model
+    ) {
+        boolean result = memberService.emailAuth(id);
+        model.addAttribute("result", result);
+
+        return "member/email-auth";
+    }
 }

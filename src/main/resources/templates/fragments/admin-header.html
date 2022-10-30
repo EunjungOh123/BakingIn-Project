@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>admin-header</title>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 <header>
@@ -28,7 +30,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a th:href="@{/admin/main}">Home</a></li>
             <li><a th:href="@{/admin/member/list}">회원 관리</a></li>
-            <li><a th:href="@{/admin/category/recipe-category-list}">카테고리 관리</a></li>
+            <li><a th:href="@{/admin/category/recipe-list}">카테고리 관리</a></li>
             <li><a th:href="@{/}" target="_blank">Visit Site</a></li>
             <li class="dropdown ">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"

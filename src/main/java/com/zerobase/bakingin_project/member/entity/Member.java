@@ -27,6 +27,7 @@ public class Member extends BaseTimeEntity {
     private String email;
     private String phone;
 
+    private String emailAuthKey;
     private boolean emailAuthYn;
     private LocalDateTime emailAuthAt;
 
