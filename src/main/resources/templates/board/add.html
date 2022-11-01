@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>레시피 등록</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="/ckeditor/ckeditor.js"></script>
+    <link th:href="@{/css/header.css}" rel="stylesheet">
+    <link th:href="@{/css/board-add.css}" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            // 파일 업로드를 할 경로를 지정하자. (with csrf)
+            const $ckUploadPath = "/board/image?_csrf=" + $('#_csrf').val();
+            CKEDITOR.replace('contents', {
+                filebrowserUploadUrl : $ckUploadPath
+            });
+        });
+    </script>
+</head>
+<body>
+<header>
+    <div th:replace="fragments/header :: header"></div>
+</header>
+<div class="col-md-10 col-md-offset-1">
+    <form id="submitForm" method="post" action="/board/add" enctype="multipart/form-data">
+        <div class="inline-div">
+            <button type="submit" class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-plus"></span> 레시피 등록
+            </button>
+            <a href="/board/list" class="btn btn-warning btn-sm">
+                <span class="glyphicon glyphicon-th-list"></span> 목록 이동</a>
+        </div>
+    <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    <h3 class="panel-title" style="font-weight: bold">레시피</h3>
+                </div>
+            </div>
+        </div>
+        <div class="detail">
+                <table class="table table-list">
+                    <tbody>
+                    <tr>
+                        <th>작성자</th>
+                        <td>
+                            <div th:value="${userId}" th:text="${userId}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>카테고리</th>
+                        <td>
+                            <div>
+                                <select name="categoryId" class="form-control" required>
+                                    <option>카테고리 선택</option>
+                                    <option th:each="x : ${category}" th:value="${x.id}" th:text="${x.categoryName}">
+                                    </option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>제목</th>
+                        <td class="table-input">
+                            <div><input type="text" name="title" class="form-control"
+                                        required/></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>간략한 소개</th>
+                        <td class="table-input">
+                            <div><textarea name="summary" class="form-control"
+                                           required></textarea></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>필요한 재료</th>
+                        <td class="table-input">
+                            <div>
+                                <textarea id="ingredient" name="ingredient" class="form-control" style="height: 150px" required></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>설명</th>
+                        <td class="table-input">
+                            <input type="hidden" name="_csrf" id="_csrf" th:value="${_csrf?.token}">
+                            <div>
+                                <textarea id="contents" name="contents" class="form-control" required></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+    </form>
+</div>
+</body>
+</html>

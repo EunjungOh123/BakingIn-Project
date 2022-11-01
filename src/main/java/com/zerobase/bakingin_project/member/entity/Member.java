@@ -1,5 +1,6 @@
 package com.zerobase.bakingin_project.member.entity;
 
+import com.zerobase.bakingin_project.board.entity.Board;
 import com.zerobase.bakingin_project.entity.BaseTimeEntity;
 import com.zerobase.bakingin_project.member.type.MemberRole;
 import com.zerobase.bakingin_project.member.type.MemberStatus;
@@ -11,6 +12,8 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Data
@@ -36,4 +39,9 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
+
+    @OneToMany(mappedBy = "writer",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<Board> boards = new ArrayList<>();
 }

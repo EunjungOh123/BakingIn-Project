@@ -22,7 +22,7 @@ public class RecipeCategoryDto {
     boolean usingYn;
     LocalDateTime createAt;
 
-    int courseCount;
+    int count;
 
     public static List<RecipeCategoryDto> fromEntity (List<RecipeCategory> categories) {
         if (categories != null) {
