@@ -10,6 +10,7 @@ import com.zerobase.bakingin_project.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public boolean register(RegisterMemberInput registerInput) {
 
         String encPassword = PasswordUtils.encPassword(registerInput.getPassword());
@@ -44,6 +46,7 @@ public class MemberServiceImpl implements MemberService{
 
         String subject = "[회원 가입] 이메일 인증을 완료해주세요.";
         String text = mailSendService.createRegisterTextMessage(registerInput.getUserId(), uuid);
+
         mailSendService.sendMail(registerInput.getEmail(), subject, text);
 
         return true;

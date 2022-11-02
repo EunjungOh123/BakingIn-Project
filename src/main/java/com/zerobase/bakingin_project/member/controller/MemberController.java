@@ -55,7 +55,7 @@ public class MemberController {
             return "member/register";
         }
         memberService.register(memberInput);
-        return "/member/register-success";
+        return "member/register-success";
     }
     @GetMapping("/login")
     public String login () {

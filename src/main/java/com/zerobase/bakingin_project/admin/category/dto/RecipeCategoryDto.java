@@ -17,10 +17,10 @@ import java.util.List;
 @Data
 public class RecipeCategoryDto {
 
-    Long id;
-    String categoryName;
-    boolean usingYn;
-    LocalDateTime createAt;
+    private Long id;
+    private String categoryName;
+    private boolean usingYn;
+    private LocalDateTime createAt;
 
     int count;
 
