@@ -44,7 +44,7 @@
                     <tr>
                         <th>등록일</th>
                         <td class="table-input">
-                            <div th:text="${boardDto.createAtText}"></div>
+                            <div th:text="${#temporals.format(boardDto.createAt, 'yyyy-MM-dd HH:mm')}"></div>
                         </td>
                     </tr>
                     <tr>

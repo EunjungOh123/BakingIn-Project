@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Builder
 @AllArgsConstructor
@@ -32,10 +31,5 @@ public class BoardDto {
                 .createAt(board.getCreateAt())
                 .views(board.getViews())
                 .build();
-    }
-
-    public String getCreateAtText() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
-        return createAt != null ? createAt.format(formatter) : "";
     }
 }

@@ -59,7 +59,7 @@
                     <div th:text="${x.writer.userId}"></div>
                 </td>
                 <td>
-                    <div th:text="${x.createAtText}"></div>
+                    <div th:text="${#temporals.format(x.createAt, 'yyyy-MM-dd HH:mm')}"></div>
                 </td>
                 <td>
                     <div th:text="${x.views}"></div>
