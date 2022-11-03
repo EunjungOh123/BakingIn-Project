@@ -4,7 +4,9 @@ import com.zerobase.bakingin_project.admin.category.service.CategoryService;
 import com.zerobase.bakingin_project.board.dto.BoardDto;
 import com.zerobase.bakingin_project.board.dto.InputBoard;
 import com.zerobase.bakingin_project.board.entity.Board;
+import com.zerobase.bakingin_project.board.exception.BoardException;
 import com.zerobase.bakingin_project.board.service.BoardService;
+import com.zerobase.bakingin_project.board.type.BoardErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,9 +30,12 @@ public class BoardController {
     private final BoardService boardService;
     @GetMapping("/add")
     public String add (Model model, Principal user) {
+        if(user == null) {
+            throw new BoardException(BoardErrorCode.CANNOT_WRITE_POST);
+        }
         String userId = user.getName();
         model.addAttribute("userId", userId);
-        model.addAttribute("category", categoryService.list());
+        model.addAttribute("category", categoryService.frontList());
         return "board/add";
     }
     @PostMapping("/add")

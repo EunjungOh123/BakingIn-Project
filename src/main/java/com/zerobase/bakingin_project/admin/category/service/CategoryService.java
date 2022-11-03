@@ -7,7 +7,15 @@ import java.util.List;
 
 public interface CategoryService {
 
+    /**
+     * 카테고리 리스트
+     */
     List<RecipeCategoryDto> list();
+
+    /**
+     * 카테고리 리스트 > 사용 중인 것만
+     */
+    List<RecipeCategoryDto> frontList();
 
     /**
      * 카테고리 추가

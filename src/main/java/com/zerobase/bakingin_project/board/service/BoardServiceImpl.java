@@ -39,13 +39,13 @@ public class BoardServiceImpl implements BoardService{
     private final RecipeCategoryRepository categoryRepository;
 
     @Override
-    @Transactional(rollbackFor = {IllegalStateException.class, IOException.class })
+    @Transactional
     public void add(InputBoard inputBoard, String userId) {
 
         Member member = memberRepository.findById(userId)
                 .orElseThrow(()-> new BoardException(BoardErrorCode.CANNOT_WRITE_POST));
         RecipeCategory category = categoryRepository.findById(inputBoard.getCategoryId())
-                .orElseThrow(()-> new BoardException(BoardErrorCode.CANNOT_WRITE_POST));
+                .orElseThrow(()-> new BoardException(BoardErrorCode.CHOOSE_INCORRECT_CATEGORY));
         
         Board board = inputBoard.toEntity();
         board.setWriter(member);
