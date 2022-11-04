@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>레시피 목록</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link th:href="@{/css/header.css}" rel="stylesheet">
+    <style>
+        .page {
+            text-align: center;
+        }
+
+        .col-md-10 {
+            margin-top: 3rem;
+        }
+
+        .inline-div {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<header>
+    <div th:replace="fragments/header :: header"></div>
+</header>
+<body>
+<div class="col-md-10 col-md-offset-1">
+    <div class="inline-div"><a sec:authorize="isAuthenticated()" href="/board/add" class="btn btn-primary btn-sm">레시피 작성</a></div>
+    <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    <h3 class="panel-title" style="font-weight: bold">레시피 목록</h3>
+                </div>
+            </div>
+        </div>
+        <table class="table table-list" style="text-align: center; vertical-align: center">
+            <thead>
+            <tr>
+                <th class="text-center">글번호</th>
+                <th class="text-center">카테고리</th>
+                <th class="text-center">제목</th>
+                <th class="text-center">작성자</th>
+                <th class="text-center">등록일</th>
+                <th class="text-center">조회수</th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+            <tr th:each="x : ${list}">
+                <td th:text="${x.id}">1</td>
+                <td>
+                    <div th:text="${x.category.categoryName}"></div>
+                </td>
+                <td>
+                    <div><a th:href="'detail?id=' + ${x.id}" th:text="${x.title}" style="color: black">제목</a></div>
+                </td>
+                <td>
+                    <div th:text="${x.writer.userId}"></div>
+                </td>
+                <td>
+                    <div th:text="${#temporals.format(x.createAt, 'yyyy-MM-dd HH:mm')}"></div>
+                </td>
+                <td>
+                    <div th:text="${x.views}"></div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.size(list) < 1}">
+                <td colspan="6">
+                    <div class="nothing" style="font-weight: bold">내용이 없습니다.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="page">
+        <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
+            <a th:if="${page!=nowPage}" th:href="@{/board/list(page = ${page - 1})}" th:text="${page}"
+               class="text-center" style="color: black"></a>
+            <strong th:if="${page==nowPage}" th:text="${page}" style="color:indianred"></strong>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

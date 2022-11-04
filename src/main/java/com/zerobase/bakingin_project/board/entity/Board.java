@@ -29,7 +29,7 @@ public class Board extends BaseTimeEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String ingredient;
 
     private String summary;
@@ -54,4 +54,5 @@ public class Board extends BaseTimeEntity {
             orphanRemoval = true
     )
     private List<Comment> comments = new ArrayList<>();
+
 }

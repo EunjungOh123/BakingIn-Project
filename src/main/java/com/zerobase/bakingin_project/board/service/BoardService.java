@@ -1,8 +1,13 @@
 package com.zerobase.bakingin_project.board.service;
 
+import com.zerobase.bakingin_project.board.dto.BoardDto;
 import com.zerobase.bakingin_project.board.dto.CKResponse;
 import com.zerobase.bakingin_project.board.dto.InputBoard;
+import com.zerobase.bakingin_project.board.entity.Board;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+
 
 public interface BoardService {
 
@@ -12,25 +17,25 @@ public interface BoardService {
     void add(InputBoard inputBoard, String userId);
 
     /**
-     * 레시피 수정
-     */
-
-
-    /**
      * 레시피 목록
      */
-
+    Page<Board> boardList(Pageable pageable);
     /**
      * 레시피 상세정보
+     */
+    BoardDto recipeDetail(long id);
+
+    /**
+     * 레시피 본문 이미지
+     */
+    CKResponse ckImageUpload(MultipartFile upload);
+
+    /**
+     * 레시피 수정
      */
 
     /**
      * 레시피 삭제
      */
 
-
-    /**
-     * 레시피 이미지
-     */
-    CKResponse ckImageUpload(MultipartFile upload);
 }

@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BoardException extends RuntimeException {
+
     private BoardErrorCode boardErrorCode;
+
     private String message;
 
     public BoardException(BoardErrorCode boardErrorCode){

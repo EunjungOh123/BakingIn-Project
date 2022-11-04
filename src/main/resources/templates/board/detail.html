@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>레시피 상세 페이지</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link th:href="@{/css/header.css}" rel="stylesheet">
+    <style>
+        .inline-div {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div th:replace="fragments/header :: header"></div>
+</header>
+<div class="col-md-10 col-md-offset-1">
+        <div class="inline-div">
+            <button type="submit" class="btn btn-success btn-sm">
+                <span class="glyphicon glyphicon-edit"></span> 레시피 수정
+            </button>
+            <a href="/board/list" class="btn btn-warning btn-sm">
+                <span class="glyphicon glyphicon-th-list"></span> 레시피 목록</a>
+        </div>
+        <div class="panel panel-default panel-table">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col col-xs-6">
+                        <h3 class="panel-title" style="font-weight: bold">레시피 상세보기</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="detail">
+                <table class="table table-list">
+                    <tbody>
+                    <tr>
+                        <th>제목</th>
+                        <td class="table-input">
+                            <div th:text="${boardDto.title}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>등록일</th>
+                        <td class="table-input">
+                            <div th:text="${#temporals.format(boardDto.createAt, 'yyyy-MM-dd HH:mm')}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>간략한 소개</th>
+                        <td class="table-input">
+                            <div th:text="${boardDto.summary}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>필요한 재료</th>
+                        <td class="table-input">
+                            <div th:utext="${boardDto.ingredient}"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>설명</th>
+                        <td class="table-input">
+                            <div th:utext="${boardDto.contents}"></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+</div>
+</body>
+</html>

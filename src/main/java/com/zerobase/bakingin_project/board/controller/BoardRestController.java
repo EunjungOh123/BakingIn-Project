@@ -20,7 +20,6 @@ import java.nio.file.Files;
 @RestController
 @RequiredArgsConstructor
 public class BoardRestController {
-
     private final BoardService boardService;
 
     @Value("${ck.image.folder}")

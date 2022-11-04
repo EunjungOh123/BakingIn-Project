@@ -6,10 +6,12 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CKResponse {
+
     // 업로드한 이미지 개수
-    private Integer uploaded;
+     private Integer uploaded;
     // 파일명
     private String fileName;
     // 이미지를 볼 수 있는 주소
     private String url;
+
 }
