@@ -3,15 +3,11 @@ package com.zerobase.bakingin_project.board.controller;
 import com.zerobase.bakingin_project.admin.category.service.CategoryService;
 import com.zerobase.bakingin_project.board.dto.BoardDto;
 import com.zerobase.bakingin_project.board.dto.InputBoard;
-import com.zerobase.bakingin_project.board.entity.Board;
 import com.zerobase.bakingin_project.board.exception.BoardException;
+import com.zerobase.bakingin_project.board.repository.BoardCustomRepository;
 import com.zerobase.bakingin_project.board.service.BoardService;
-import com.zerobase.bakingin_project.board.type.BoardErrorCode;
+import com.zerobase.bakingin_project.board.exception.BoardErrorCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +20,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -31,6 +29,7 @@ import java.security.Principal;
 public class BoardController {
     private final CategoryService categoryService;
     private final BoardService boardService;
+    private final BoardCustomRepository boardRepository;
     @GetMapping("/add")
     public String add (Model model, Principal user) {
         if(user == null) {
@@ -49,17 +48,20 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<Board> list = boardService.boardList(pageable);
+    public String list(Model model, @RequestParam(defaultValue = "1") int page) {
+        // 총 게시물 수
+        int totalListCnt = boardRepository.findAllCnt();
+        Pagination pagination = new Pagination(totalListCnt, page);
+        // DB select start index
+        int startIndex = pagination.getStartIndex();
+        // 페이지 당 보여지는 게시글의 최대 개수
+        int pageSize = pagination.getPageSize();
 
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+        List<BoardDto> list = boardRepository.findListPaging(startIndex, pageSize)
+                .stream().map(e -> BoardDto.fromEntity(e)).collect(Collectors.toList());
 
         model.addAttribute("list", list);
-        model.addAttribute("nowPage", nowPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
+        model.addAttribute("pagination", pagination);
 
         return "board/list";
     }
