@@ -30,7 +30,7 @@ public interface BoardService {
     /**
      * 레시피 삭제
      */
-
+    void delete (Long id);
     /**
      * 레시피 조회수 증가
      */

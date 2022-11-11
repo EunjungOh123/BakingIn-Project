@@ -4,12 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <title>레시피 상세 페이지</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <link th:href="@{/css/header.css}" rel="stylesheet">
+    <script>
+        $(document).ready(function() {
+            $('form[name=deleteForm]').on('submit', function() {
+                if (!confirm(' 카테고리를 삭제하시겠습니까? ')) {
+                    return false;
+                }
+            });
+        });
+    </script>
     <style>
         .inline-div {
+            margin-top: 2rem;
             margin-bottom: 1rem;
+        }
+        .table {
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -84,6 +99,13 @@
                 </table>
             </div>
         </div>
+    <form name="deleteForm" method="post" action="/board/delete">
+        <input type="hidden" name="id" th:value="${boardDto.id}"/>
+        <button class="btn btn-danger btn-sm"
+                th:if="${boardDto.writer != null and #authentication.name == boardDto.writer.userId}"
+                style="float: right;">
+            <span class="glyphicon glyphicon-remove"></span> 레시피 삭제</button>
+    </form>
 </div>
 </body>
 </html>

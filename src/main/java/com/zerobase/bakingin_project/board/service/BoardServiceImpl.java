@@ -92,6 +92,13 @@ public class BoardServiceImpl implements BoardService{
         boardRepository.save(board);
     }
 
+    @Override
+    public void delete(Long id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new BoardException(BoardErrorCode.CANNOT_DELETE_POST));
+        boardRepository.delete(board);
+    }
+
 
     @Override
     @Transactional

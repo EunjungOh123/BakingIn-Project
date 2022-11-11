@@ -99,4 +99,9 @@ public class BoardController {
         model.addAttribute("boardDto", boardDto);
         return "board/detail";
     }
+    @PostMapping("/delete")
+    public String delete (@RequestParam Long id) {
+        boardService.delete(id);
+        return "redirect:/board/list";
+    }
 }
