@@ -33,7 +33,7 @@ public class RecipeCategoryServiceImpl implements CategoryService {
 
     @Override
     public List<RecipeCategoryDto> frontList() {
-        List<RecipeCategory> categories = categoryRepository.findAllByUsingYnIsTrue();
+        List<RecipeCategory> categories = categoryRepository.findAllByUsingCategoryIsTrue();
 
         return RecipeCategoryDto.fromEntity(categories);
     }
@@ -55,7 +55,7 @@ public class RecipeCategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new CategoryException(CategoryErrorCode.CATEGORY_NOT_EXIST));
 
         category.setCategoryName(inputRecipeCategory.getCategoryName());
-        category.setUsingYn(inputRecipeCategory.isUsingYn());
+        category.setUsingCategory(inputRecipeCategory.isUsingCategory());
         categoryRepository.save(category);
 
     }
