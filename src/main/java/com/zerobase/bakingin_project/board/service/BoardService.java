@@ -33,9 +33,13 @@ public interface BoardService {
     /**
      * 레시피 수정
      */
-
+    void update(InputBoard inputBoard, Long id);
     /**
      * 레시피 삭제
      */
 
+    /**
+     * 레시피 조회수 증가
+     */
+    int updateViews (Long id);
 }

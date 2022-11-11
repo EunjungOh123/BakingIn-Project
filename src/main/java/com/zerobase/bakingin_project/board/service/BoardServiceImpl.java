@@ -72,6 +72,18 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public void update(InputBoard inputBoard, Long id) {
+
+    }
+
+
+    @Override
+    @Transactional
+    public int updateViews(Long id) {
+        return boardRepository.updateView(id);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public BoardDto recipeDetail(long id) {
         Board board = boardRepository.findById(id)
@@ -80,7 +92,10 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public Page <Board> boardList(Pageable pageable) {
-        return boardRepository.findAll(pageable);
+    public Page<Board> boardList(Pageable pageable) {
+
+        Page<Board> boards = boardRepository.findAll(pageable);
+
+        return boards;
     }
 }

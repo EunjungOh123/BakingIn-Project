@@ -59,8 +59,11 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers("/", "/member/login",
-                        "/member/register", "/member/email-auth")
+                        "/member/register", "/member/email-auth", "/board/list")
                 .permitAll(); // 해당 경로들은 접근을 허용
+
+        http.authorizeRequests()
+                .antMatchers("/board/detail", "/board/update").authenticated();
 
         http.authorizeRequests()
                 .antMatchers("/admin/**")
