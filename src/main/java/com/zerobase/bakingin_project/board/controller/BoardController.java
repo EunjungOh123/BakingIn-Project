@@ -59,7 +59,6 @@ public class BoardController {
 
         List<BoardDto> list = boardRepository.findListPaging(startIndex, pageSize)
                 .stream().map(e -> BoardDto.fromEntity(e)).collect(Collectors.toList());
-
         model.addAttribute("list", list);
         model.addAttribute("pagination", pagination);
 
@@ -83,17 +82,16 @@ public class BoardController {
                 boardService.updateViews(id);
                 oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
                 oldCookie.setPath("/");
-                oldCookie.setMaxAge(60 * 60 * 24); 							// 쿠키 시간
+                oldCookie.setMaxAge(60); 							// 쿠키 시간
                 response.addCookie(oldCookie);
             }
         } else {
             boardService.updateViews(id);
             Cookie newCookie = new Cookie("postView", "[" + id + "]");
             newCookie.setPath("/");
-            newCookie.setMaxAge(60 * 60 * 24); 								// 쿠키 시간
+            newCookie.setMaxAge(60); 								// 쿠키 시간
             response.addCookie(newCookie);
         }
-
         BoardDto boardDto = boardService.recipeDetail(id);
 
         model.addAttribute("boardDto", boardDto);
@@ -103,5 +101,26 @@ public class BoardController {
     public String delete (@RequestParam Long id) {
         boardService.delete(id);
         return "redirect:/board/list";
+    }
+    @GetMapping("/update")
+    public String update (Model model, @RequestParam Long id, Principal user) {
+        if(user == null) {
+            throw new BoardException(BoardErrorCode.CANNOT_REVISE_POST);
+        }
+
+        BoardDto boardDto = boardService.recipeDetail(id);
+
+        if(!user.getName().equals(boardDto.getWriter().getUserId())) {
+            throw new BoardException(BoardErrorCode.UN_MATCH_WRITER_AND_USERID);
+        }
+
+        model.addAttribute("category", categoryService.frontList());
+        model.addAttribute("boardDto", boardDto);
+        return "board/update";
+    }
+    @PostMapping("/update")
+    public String updateSubmit(InputBoard inputBoard, Long id) {
+        boardService.update(inputBoard, id);
+        return "redirect:/board/detail?id="+id;
     }
 }
