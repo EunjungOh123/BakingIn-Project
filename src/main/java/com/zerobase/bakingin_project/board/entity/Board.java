@@ -4,10 +4,8 @@ import com.zerobase.bakingin_project.admin.category.entity.RecipeCategory;
 import com.zerobase.bakingin_project.comment.entity.Comment;
 import com.zerobase.bakingin_project.entity.BaseTimeEntity;
 import com.zerobase.bakingin_project.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -20,6 +18,7 @@ import java.util.List;
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain=true)
 public class Board extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
