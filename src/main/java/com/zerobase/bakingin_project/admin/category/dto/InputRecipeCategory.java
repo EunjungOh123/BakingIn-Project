@@ -8,14 +8,13 @@ public class InputRecipeCategory {
 
     Long id;
     String categoryName;
-    boolean usingYn;
+    boolean usingCategory;
 
 
     public RecipeCategory toEntity() {
-
         return RecipeCategory.builder()
                 .categoryName(categoryName)
-                .usingYn(true)
+                .usingCategory(true)
                 .build();
     }
 }

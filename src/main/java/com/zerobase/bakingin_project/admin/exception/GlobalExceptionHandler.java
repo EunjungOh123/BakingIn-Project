@@ -12,16 +12,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BoardException.class)
-    public String handleBoardException (Exception e, Model model) {
+    @ExceptionHandler({BoardException.class, CategoryException.class})
+    public String handleException (Exception e, Model model) {
         log.error(e.getMessage());
         model.addAttribute("error", e.getMessage());
-        return "board/error";
-    }
-
-    @ExceptionHandler(CategoryException.class)
-    public String handleCategoryException (Exception e) {
-        log.error(e.getMessage());
-        return "redirect:/admin/category/recipe-list";
+        return "error/error";
     }
 }

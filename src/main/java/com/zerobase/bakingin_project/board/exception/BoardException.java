@@ -1,6 +1,5 @@
 package com.zerobase.bakingin_project.board.exception;
 
-import com.zerobase.bakingin_project.board.type.BoardErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

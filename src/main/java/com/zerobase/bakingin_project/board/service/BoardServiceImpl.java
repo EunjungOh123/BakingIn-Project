@@ -8,13 +8,11 @@ import com.zerobase.bakingin_project.board.dto.InputBoard;
 import com.zerobase.bakingin_project.board.entity.Board;
 import com.zerobase.bakingin_project.board.exception.BoardException;
 import com.zerobase.bakingin_project.board.repository.BoardRepository;
-import com.zerobase.bakingin_project.board.type.BoardErrorCode;
+import com.zerobase.bakingin_project.board.exception.BoardErrorCode;
 import com.zerobase.bakingin_project.member.entity.Member;
 import com.zerobase.bakingin_project.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,10 +44,16 @@ public class BoardServiceImpl implements BoardService{
                 .orElseThrow(()-> new BoardException(BoardErrorCode.CANNOT_WRITE_POST));
         RecipeCategory category = categoryRepository.findById(inputBoard.getCategoryId())
                 .orElseThrow(()-> new BoardException(BoardErrorCode.CHOOSE_INCORRECT_CATEGORY));
-        
-        Board board = inputBoard.toEntity();
-        board.setWriter(member);
-        board.setCategory(category);
+
+        Board board = Board.builder()
+                .title(inputBoard.getTitle())
+                .summary(inputBoard.getSummary())
+                .ingredient(inputBoard.getIngredient())
+                .contents(inputBoard.getContents())
+                .writer(member)
+                .category(category)
+                .build();
+
         boardRepository.save(board);
     }
 
@@ -73,7 +77,26 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public void update(InputBoard inputBoard, Long id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new BoardException(BoardErrorCode.CANNOT_REVISE_POST));
 
+        RecipeCategory category = categoryRepository.findById(inputBoard.getCategoryId())
+                .orElseThrow(()-> new BoardException(BoardErrorCode.CHOOSE_INCORRECT_CATEGORY));
+
+        board.setTitle(inputBoard.getTitle())
+                .setSummary(inputBoard.getSummary())
+                .setIngredient(inputBoard.getIngredient())
+                .setContents(inputBoard.getContents())
+                .setCategory(category);
+
+        boardRepository.save(board);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new BoardException(BoardErrorCode.CANNOT_DELETE_POST));
+        boardRepository.delete(board);
     }
 
 
@@ -91,11 +114,4 @@ public class BoardServiceImpl implements BoardService{
         return BoardDto.fromEntity(board);
     }
 
-    @Override
-    public Page<Board> boardList(Pageable pageable) {
-
-        Page<Board> boards = boardRepository.findAll(pageable);
-
-        return boards;
-    }
 }

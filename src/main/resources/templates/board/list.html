@@ -8,12 +8,12 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <link th:href="@{/css/header.css}" rel="stylesheet">
     <style>
-        .page {
+        .paging {
             text-align: center;
         }
 
         .col-md-10 {
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
         .inline-div {
@@ -26,12 +26,13 @@
 </header>
 <body>
 <div class="col-md-10 col-md-offset-1">
-    <div class="inline-div"><a sec:authorize="isAuthenticated()" href="/board/add" class="btn btn-info btn-sm">레시피 등록</a></div>
+    <div class="inline-div"><a sec:authorize="isAuthenticated()" href="/board/add" class="btn btn-info btn-sm">
+        <span class="glyphicon glyphicon-plus-sign"> </span> 레시피 작성</a></div>
     <div class="panel panel-default panel-table">
         <div class="panel-heading">
             <div class="row">
                 <div class="col col-xs-6">
-                    <h3 class="panel-title" style="font-weight: bold">레시피 목록</h3>
+                    <h3 class="panel-title" style="font-weight: bold" >레시피 목록</h3>
                 </div>
             </div>
         </div>
@@ -73,17 +74,37 @@
             </tbody>
         </table>
     </div>
-    <div class="page">
-        <a th:classappend="${!list.hasPrevious} ? 'disabled'" class="page-link" th:href="@{/board/list(page = 0)}">
-            <span aria-hidden="true">[처음]</span></a>
-        <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
-            <a th:if="${page!=nowPage}" th:href="@{/board/list(page = ${page - 1})}" th:text="${page}"
-               class="text-center" style="color: black"></a>
-            <strong th:if="${page==nowPage}" th:text="${page}" style="color:indianred"></strong>
-        </th:block>
-        <a th:classappend="${!list.hasNext} ? 'disabled'" class="page-link" th:href="@{/board/list(page = ${list.totalPages}-1)}">
-            <span>[끝]</span></a>
-    </div>
+    <nav class="paging" aria-label="Page navigation example ">
+        <ul class="pagination">
+            <li class="page-item" th:if="${pagination.page != 1}">
+                <a class="page-link" th:href="@{/board/list?page=1}" aria-label="Previous">
+                    <span aria-hidden="true">처음</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${pagination.prev}">
+                <a class="page-link" th:href="@{/board/list(page = ${pagination.prevBlock})}" aria-label="Previous">
+                    <span aria-hidden="true">이전</span>
+                </a>
+            </li>
+            <th:block th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                <li class="page-item"
+                    th:each="pageButton : ${#numbers.sequence(start, end)}"
+                    th:classappend="${pageButton == pagination.page} ? 'active'">
+                    <a class="page-link" th:href="@{/board/list(page = ${pageButton})}" th:text="${pageButton}"></a>
+                </li>
+            </th:block>
+            <li class="page-item" th:if="${pagination.next}">
+                <a class="page-link" th:href="@{/board/list(page = ${pagination.nextBlock})}" aria-label="Next">
+                    <span aria-hidden="true">다음</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${pagination.page != pagination.totalPageCnt}">
+                <a class="page-link" th:href="@{/board/list(page = ${pagination.totalPageCnt})}" aria-label="Previous">
+                    <span aria-hidden="true">끝</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

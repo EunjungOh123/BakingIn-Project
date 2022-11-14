@@ -19,10 +19,8 @@ public class RecipeCategoryDto {
 
     private Long id;
     private String categoryName;
-    private boolean usingYn;
+    private boolean usingCategory;
     private LocalDateTime createAt;
-
-    int count;
 
     public static List<RecipeCategoryDto> fromEntity (List<RecipeCategory> categories) {
         if (categories != null) {
@@ -39,7 +37,7 @@ public class RecipeCategoryDto {
         return RecipeCategoryDto.builder()
                 .id(category.getId())
                 .categoryName(category.getCategoryName())
-                .usingYn(category.isUsingYn())
+                .usingCategory(category.isUsingCategory())
                 .createAt(category.getCreateAt())
                 .build();
     }

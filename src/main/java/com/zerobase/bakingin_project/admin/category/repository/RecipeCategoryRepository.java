@@ -9,6 +9,6 @@ public interface RecipeCategoryRepository extends JpaRepository<RecipeCategory, 
 
     boolean existsByCategoryName (String categoryName);
 
-    List <RecipeCategory> findAllByUsingYnIsTrue();
+    List <RecipeCategory> findAllByUsingCategoryIsTrue();
 
 }

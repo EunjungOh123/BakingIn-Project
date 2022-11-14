@@ -2,10 +2,7 @@ package com.zerobase.bakingin_project.admin.category.entity;
 
 import com.zerobase.bakingin_project.board.entity.Board;
 import com.zerobase.bakingin_project.entity.BaseTimeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,7 +20,7 @@ public class RecipeCategory extends BaseTimeEntity {
     @Column(name = "category_id")
     private Long id;
     private String categoryName;
-    private boolean usingYn;
+    private boolean usingCategory;
 
     @OneToMany(
             mappedBy = "category",
