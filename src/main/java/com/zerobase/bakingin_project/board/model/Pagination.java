@@ -1,4 +1,4 @@
-package com.zerobase.bakingin_project.board.controller;
+package com.zerobase.bakingin_project.board.model;
 
 import lombok.Data;
 
@@ -62,7 +62,6 @@ public class Pagination {
      *  다음 페이지 여부
      */
     private boolean next;
-
     public Pagination(int totalListCnt, int page) {
 
         // 총 게시물 수와 현재 페이지를 BoardController에서 받아온다.
@@ -73,7 +72,6 @@ public class Pagination {
 
         /** 총 게시글 수 **/
         setTotalListCnt(totalListCnt);
-
 
         /** 페이지 수 **/
         // 한 페이지의 최대 개수를 총 게시물 수 * 1.0로 나누어주고 올림

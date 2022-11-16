@@ -25,7 +25,7 @@ public class BoardDto {
     private RecipeCategory category;
     private long views;
     private LocalDateTime createAt;
-
+    private boolean deleteBoard;
     public static BoardDto fromEntity (Board board) {
         return BoardDto.builder()
                 .id(board.getId())
@@ -37,6 +37,7 @@ public class BoardDto {
                 .contents(board.getContents())
                 .createAt(board.getCreateAt())
                 .views(board.getViews())
+                .deleteBoard(board.isDeleteBoard())
                 .build();
     }
 }

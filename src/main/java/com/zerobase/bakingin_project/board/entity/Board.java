@@ -54,4 +54,5 @@ public class Board extends BaseTimeEntity {
     )
     private List<Comment> comments = new ArrayList<>();
 
+    private boolean deleteBoard;
 }

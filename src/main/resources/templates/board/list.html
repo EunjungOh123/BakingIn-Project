@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>레시피 목록</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <link th:href="@{/css/header.css}" rel="stylesheet">
@@ -19,6 +21,18 @@
         .inline-div {
             margin-bottom: 1rem;
         }
+        .search-box {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+        .cate-div {
+            font-size: 15px;
+            display: inline-block;
+        }
+        .cate {
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <header>
@@ -26,8 +40,25 @@
 </header>
 <body>
 <div class="col-md-10 col-md-offset-1">
-    <div class="inline-div"><a sec:authorize="isAuthenticated()" href="/board/add" class="btn btn-info btn-sm">
-        <span class="glyphicon glyphicon-plus-sign"> </span> 레시피 작성</a></div>
+    <div class="cate" style="font-size: 15px; font-weight: bold">카테고리</div>
+    <div class="cate-div"th:each="cate : ${category}">[
+        <a class="inline" th:href="@{/board/list(categoryId = ${cate.id})}" th:text="${cate.categoryName}" style="color: black; font-weight: bold"></a> ]
+    </div>
+    <div class="search-box">
+        <form id="searchForm" method="get">
+            <input type="hidden" name="categoryId" th:value="${param.categoryId}"/>
+            <select name="searchType" class="form-control-plaintext" style="height: 25px">
+                <option th:selected="${#strings.equals(param.searchType, 'writer')}" value="writer">작성자</option>
+                <option th:selected="${#strings.equals(param.searchType, 'email')}" value="title">제목</option>
+                <option th:selected="${#strings.equals(param.searchType, 'nickname')}" value="contents">내용</option>
+            </select>
+            <input th:value="${param.searchValue}" type="text" name="searchValue" class="form-control-sm"
+                   style="width:150px" required/>
+            <button type="submit">검색</button>
+        </form>
+    </div>
+</div>
+<div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default panel-table">
         <div class="panel-heading">
             <div class="row">
@@ -40,19 +71,16 @@
             <thead>
             <tr>
                 <th class="text-center">글번호</th>
-                <th class="text-center">카테고리</th>
                 <th class="text-center">제목</th>
                 <th class="text-center">작성자</th>
                 <th class="text-center">등록일</th>
+                <th class="text-center">카테고리</th>
                 <th class="text-center">조회수</th>
             </tr>
             </thead>
             <tbody id="dataList">
             <tr th:each="x : ${list}">
                 <td th:text="${x.id}">1</td>
-                <td>
-                    <div th:text="${x.category.categoryName}"></div>
-                </td>
                 <td>
                     <div><a th:href="'detail?id=' + ${x.id}" th:text="${x.title}" style="color: black">제목</a></div>
                 </td>
@@ -61,6 +89,9 @@
                 </td>
                 <td>
                     <div th:text="${#temporals.format(x.createAt, 'yyyy-MM-dd HH:mm')}"></div>
+                </td>
+                <td>
+                    <div th:text="${x.category.categoryName}"></div>
                 </td>
                 <td>
                     <div th:text="${x.views}"></div>
@@ -74,15 +105,15 @@
             </tbody>
         </table>
     </div>
-    <nav class="paging" aria-label="Page navigation example ">
+    <nav th:if="${#lists.size(list) > 0}" class="paging" aria-label="Page navigation example ">
         <ul class="pagination">
             <li class="page-item" th:if="${pagination.page != 1}">
-                <a class="page-link" th:href="@{/board/list?page=1}" aria-label="Previous">
+                <a class="page-link" th:href="@{${query}(page=1)}" aria-label="Previous">
                     <span aria-hidden="true">처음</span>
                 </a>
             </li>
             <li class="page-item" th:if="${pagination.prev}">
-                <a class="page-link" th:href="@{/board/list(page = ${pagination.prevBlock})}" aria-label="Previous">
+                <a class="page-link" th:href="@{${query}(page = ${pagination.prevBlock})}" aria-label="Previous">
                     <span aria-hidden="true">이전</span>
                 </a>
             </li>
@@ -90,21 +121,25 @@
                 <li class="page-item"
                     th:each="pageButton : ${#numbers.sequence(start, end)}"
                     th:classappend="${pageButton == pagination.page} ? 'active'">
-                    <a class="page-link" th:href="@{/board/list(page = ${pageButton})}" th:text="${pageButton}"></a>
+                    <a class="page-link"
+                       th:href="@{${query}(page = ${pageButton})}"
+                       th:text="${pageButton}"></a>
                 </li>
             </th:block>
             <li class="page-item" th:if="${pagination.next}">
-                <a class="page-link" th:href="@{/board/list(page = ${pagination.nextBlock})}" aria-label="Next">
+                <a class="page-link" th:href="@{${query}(page = ${pagination.nextBlock})}" aria-label="Next">
                     <span aria-hidden="true">다음</span>
                 </a>
             </li>
             <li class="page-item" th:if="${pagination.page != pagination.totalPageCnt}">
-                <a class="page-link" th:href="@{/board/list(page = ${pagination.totalPageCnt})}" aria-label="Previous">
+                <a class="page-link" th:href="@{${query}(page = ${pagination.totalPageCnt})}" aria-label="Previous">
                     <span aria-hidden="true">끝</span>
                 </a>
             </li>
         </ul>
     </nav>
+    <div class="inline-div"><a sec:authorize="isAuthenticated()" href="/board/add" class="btn btn-info btn-sm">
+        <span class="glyphicon glyphicon-plus-sign"> </span> 레시피 작성</a></div>
 </div>
 </body>
 </html>
