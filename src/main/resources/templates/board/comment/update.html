@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>댓글 수정</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link th:href="@{/css/header.css}" rel="stylesheet">
+    <script>
+        $(document).ready(function () {
+            $('form[name=updateForm]').on('submit', function () {
+                if (!confirm(' 댓글을 수정하시겠습니까? ')) {
+                    return false;
+                }
+            });
+        });
+    </script>
+    <style>
+        .col-md-10 {
+            margin-top: 10rem;
+        }
+
+        .comment-submit {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div th:replace="fragments/header :: header"></div>
+</header>
+<div class="col-md-10 col-md-offset-1">
+    <h4 style="font-weight: bold">댓글 수정</h4>
+    <form name="updateForm" action="/board/comment/update" method="post">
+        <div class="form-group">
+            <textarea name="comment" id="comment" class="form-control" th:text="${comment.comment}" rows="5"
+                      required></textarea>
+            <input type="hidden" id="boardId" name="boardId" th:value="${comment.board.id}">
+            <input type="hidden" id="commentId" name="commentId" th:value="${comment.id}">
+            <button type="submit" class="btn comment-submit" style="background-color: #A084CA; color: #FFFFFF; float: right">Reply
+                Comment
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

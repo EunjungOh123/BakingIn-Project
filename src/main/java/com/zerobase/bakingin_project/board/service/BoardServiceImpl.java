@@ -108,7 +108,7 @@ public class BoardServiceImpl implements BoardService{
     public void delete(Long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new BoardException(BoardErrorCode.CANNOT_DELETE_POST));
-        board.setDeleteBoard(false);
+        board.setDeleteBoard(true);
         boardRepository.save(board);
         log.info("레시피 삭제!");
     }

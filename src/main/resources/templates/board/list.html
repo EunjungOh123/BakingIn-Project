@@ -76,6 +76,7 @@
                 <th class="text-center">등록일</th>
                 <th class="text-center">카테고리</th>
                 <th class="text-center">조회수</th>
+                <th class="text-center">댓글수</th>
             </tr>
             </thead>
             <tbody id="dataList">
@@ -95,6 +96,9 @@
                 </td>
                 <td>
                     <div th:text="${x.views}"></div>
+                </td>
+                <td>
+                    <div th:text="${x.commentSize}"></div>
                 </td>
             </tr>
             <tr th:if="${#lists.size(list) < 1}">
