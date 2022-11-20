@@ -4,6 +4,7 @@ package com.zerobase.bakingin_project.admin.exception;
 
 import com.zerobase.bakingin_project.board.exception.BoardException;
 import com.zerobase.bakingin_project.board.like.exception.HeartException;
+import com.zerobase.bakingin_project.member.exception.MemberException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,7 +14,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({BoardException.class, CategoryException.class, HeartException.class})
+    @ExceptionHandler(
+            {BoardException.class,
+             CategoryException.class,
+             HeartException.class,
+             MemberException.class
+            })
     public String handleException (Exception e, Model model) {
         log.error(e.getMessage());
         model.addAttribute("error", e.getMessage());
