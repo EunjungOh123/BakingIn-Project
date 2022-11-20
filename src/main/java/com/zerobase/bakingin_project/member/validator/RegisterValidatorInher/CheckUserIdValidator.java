@@ -2,7 +2,7 @@ package com.zerobase.bakingin_project.member.validator.RegisterValidatorInher;
 
 import com.zerobase.bakingin_project.member.dto.RegisterMemberInput;
 import com.zerobase.bakingin_project.member.repository.MemberRepository;
-import com.zerobase.bakingin_project.member.type.MemberErrorCode;
+import com.zerobase.bakingin_project.member.exception.MemberErrorCode;
 import com.zerobase.bakingin_project.member.validator.RegisterValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
