@@ -45,6 +45,7 @@
         .comment-submit {
             margin-top: 2rem;
         }
+
         .card {
             margin-top: 3rem;
             margin-bottom: 8rem;
@@ -136,6 +137,12 @@
             <span class="glyphicon glyphicon-remove"></span> 레시피 삭제
         </button>
     </form>
+    <form method="post" name="heartForm" th:action="@{/board/like/post/{id}(id = ${boardDto.id})}">
+        <button type="submit" class="btn btn-sm"
+                style="background-color: #FF9494; border-radius: 2em; color: #FFFFFF; float: left">
+            <span th:text="${boardLikeCnt}" class="glyphicon glyphicon-heart"></span>
+        </button>
+    </form>
 </div>
 <div sec:authorize="isAuthenticated()" class="add-comment col-md-10 col-md-offset-1">
     <form name="addForm" action="/board/comment/add" method="post">
@@ -143,43 +150,45 @@
             <textarea name="comment" id="comment" class="form-control" placeholder='Reply a Comment' rows="5"
                       required></textarea>
             <input type="hidden" id="boardId" name="boardId" th:value="${boardDto.id}">
-            <button type="submit" class="btn comment-submit" style="background-color: #A084CA; color: #FFFFFF; float: right">Reply
+            <button type="submit" class="btn comment-submit"
+                    style="background-color: #7A86B6; color: #FFFFFF; float: right">Reply
                 Comment
             </button>
         </div>
     </form>
 </div>
 <div class="col-md-10 col-md-offset-1">
-        <div class="card text-dark">
-            <div class="card-body">
-                <h4 class="mb-0" style="font-weight: bold">댓글 (<span th:text="${commentsCount}"></span>)</h4>
-                <hr class="my-0" style="height: 2px;"/>
-                <div th:each="comment : ${commentList}" class="card-body">
-                    <div class="comment-button">
-                        <form name="deleteCommentForm" method="post" action="/board/comment/delete">
+    <div class="card text-dark">
+        <div class="card-body">
+            <h4 class="mb-0" style="font-weight: bold">댓글 (<span th:text="${commentsCount}"></span>)</h4>
+            <hr class="my-0" style="height: 2px;"/>
+            <div th:each="comment : ${commentList}" class="card-body">
+                <div class="comment-button">
+                    <form name="deleteCommentForm" method="post" action="/board/comment/delete">
                         <button type="submit" class="btn btn-sm"
                                 style="background-color: #F15412; border-radius: 2em; color: #FFFFFF; float: right"
                                 th:if="${comment.writer != null and #authentication.name == comment.writer.userId}">
-                            <span class="glyphicon glyphicon-trash"></span> 삭제</button>
-                            <input type="hidden" name="commentId" th:value="${comment.id}"/>
-                            <input type="hidden" name="boardId" th:value="${comment.board.id}"/>
-                        </form>
-                        <a th:href="@{/board/comment/update/{id}(id= ${comment.id})}" class="btn btn-sm"
-                           style="background-color: #0AA1DD; border-radius: 2em; color: #FFFFFF; float: right"
-                           th:if="${comment.writer != null and #authentication.name == comment.writer.userId}">
-                            <span class="glyphicon glyphicon-edit"></span> 수정</a>
-                    </div>
-                    <h4 th:text="${comment.writer.userId}" class="fw-bold mb-1" style="font-weight: bold">Alexa Bennett</h4>
-                    <div class="d-flex align-items-center mb-3">
-                        <p th:text="${#temporals.format(comment.createAt, 'yyyy-MM-dd HH:mm')}" class="mb-0">
-                            March 24, 2021
-                        </p>
-                    </div>
-                    <p class="mb-0" th:text="${comment.comment}">댓글입니다.</p>
-                    <hr class="my-0"/>
+                            <span class="glyphicon glyphicon-trash"></span> 삭제
+                        </button>
+                        <input type="hidden" name="commentId" th:value="${comment.id}"/>
+                        <input type="hidden" name="boardId" th:value="${comment.board.id}"/>
+                    </form>
+                    <a th:href="@{/board/comment/update/{id}(id= ${comment.id})}" class="btn btn-sm"
+                       style="background-color: #0AA1DD; border-radius: 2em; color: #FFFFFF; float: right"
+                       th:if="${comment.writer != null and #authentication.name == comment.writer.userId}">
+                        <span class="glyphicon glyphicon-edit"></span> 수정</a>
                 </div>
+                <h4 th:text="${comment.writer.userId}" class="fw-bold mb-1" style="font-weight: bold">Alexa Bennett</h4>
+                <div class="d-flex align-items-center mb-3">
+                    <p th:text="${#temporals.format(comment.createAt, 'yyyy-MM-dd HH:mm')}" class="mb-0">
+                        March 24, 2021
+                    </p>
+                </div>
+                <p class="mb-0" th:text="${comment.comment}">댓글입니다.</p>
+                <hr class="my-0"/>
             </div>
         </div>
+    </div>
 </div>
 </body>
 </html>
