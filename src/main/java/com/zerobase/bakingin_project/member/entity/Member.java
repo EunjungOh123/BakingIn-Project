@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Builder
-@Data
+@Setter
+@Getter
 @Entity
 @Table
 @NoArgsConstructor
@@ -46,4 +47,6 @@ public class Member extends BaseTimeEntity {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
     private List<Board> comment = new ArrayList<>();
+
+    private boolean withdrawUser;
 }

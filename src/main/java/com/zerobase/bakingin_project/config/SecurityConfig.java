@@ -63,7 +63,8 @@ public class SecurityConfig {
                 .permitAll(); // 해당 경로들은 접근을 허용
 
         http.authorizeRequests()
-                .antMatchers("/board/detail", "/board/update").authenticated();
+                .antMatchers("/board/detail", "/board/update", "/board/comment/**"
+                , "/member/profile/**").authenticated();
 
         http.authorizeRequests()
                 .antMatchers("/admin/**")

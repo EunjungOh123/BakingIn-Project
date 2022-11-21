@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 목록</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <style>
+        .col-md-10 {
+            margin-top: 6rem;
+        }
+        .paging {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div th:replace="fragments/admin-header :: admin-header"></div>
+</header>
+<div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    <h3 class="panel-title" style="font-weight: bold" >회원 목록 (total : <span th:text="${total}"></span>명)</h3>
+                </div>
+            </div>
+        </div>
+        <table class="table table-list" style="text-align: center; vertical-align: center">
+            <thead>
+            <tr>
+                <th class="text-center">아이디</th>
+                <th class="text-center">이메일</th>
+                <th class="text-center">이름</th>
+                <th class="text-center">가입일</th>
+                <th class="text-center">상태</th>
+            </tr>
+            </thead>
+            <tbody id="dataList">
+            <tr th:each="x : ${list}">
+                <td>
+                    <div><a th:href="'detail?id=' + ${x.userId}" th:text="${x.userId}" style="color: black">제목</a></div>
+                </td>
+                <td>
+                    <div th:text="${x.email}">이메일</div>
+                </td>
+                <td>
+                    <div th:text="${x.userName}">이름</div>
+                </td>
+                <td>
+                    <div th:text="${#temporals.format(x.createAt, 'yyyy-MM-dd HH:mm')}"></div>
+                </td>
+                <td>
+                    <div th:text="${x.memberStatus}"></div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.size(list) < 1}">
+                <td colspan="5">
+                    <div class="nothing" style="font-weight: bold">내용이 없습니다.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav th:if="${#lists.size(list) > 0}" class="paging" aria-label="Page navigation example ">
+        <ul class="pagination">
+            <li class="page-item" th:if="${pagination.page != 1}">
+                <a class="page-link" th:href="@{/admin/member/list(page=1)}" aria-label="Previous">
+                    <span aria-hidden="true">처음</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${pagination.prev}">
+                <a class="page-link" th:href="@{/admin/member/list(page = ${pagination.prevBlock})}" aria-label="Previous">
+                    <span aria-hidden="true">이전</span>
+                </a>
+            </li>
+            <th:block th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                <li class="page-item"
+                    th:each="pageButton : ${#numbers.sequence(start, end)}"
+                    th:classappend="${pageButton == pagination.page} ? 'active'">
+                    <a class="page-link"
+                       th:href="@{/admin/member/list(page = ${pageButton})}"
+                       th:text="${pageButton}"></a>
+                </li>
+            </th:block>
+            <li class="page-item" th:if="${pagination.next}">
+                <a class="page-link" th:href="@{/admin/member/list(page = ${pagination.nextBlock})}" aria-label="Next">
+                    <span aria-hidden="true">다음</span>
+                </a>
+            </li>
+            <li class="page-item" th:if="${pagination.page != pagination.totalPageCnt}">
+                <a class="page-link" th:href="@{/admin/member/list(page = ${pagination.totalPageCnt})}" aria-label="Previous">
+                    <span aria-hidden="true">끝</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
