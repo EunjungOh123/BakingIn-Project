@@ -11,7 +11,6 @@ import com.zerobase.bakingin_project.comment.repository.CommentRepository;
 import com.zerobase.bakingin_project.member.entity.Member;
 import com.zerobase.bakingin_project.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +38,6 @@ public class CommentServiceImpl implements CommentService{
                 .comment(input.getComment())
                 .writer(user)
                 .board(board)
-                .deleteComment(false)
                 .build();
         commentRepository.save(comment);
     }

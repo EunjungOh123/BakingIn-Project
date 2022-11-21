@@ -46,11 +46,9 @@ public class BoardCustomRepository {
         if (param.getCategoryId() != null) {
             query = searchListQuery(param)
                     .setParameter("categoryId", param.getCategoryId());
-            System.out.println(query.setFirstResult(startIndex).setMaxResults(pageSize).getResultList().size());
             return query.setFirstResult(startIndex).setMaxResults(pageSize).getResultList();
         }
         query = searchListQuery(param);
-        System.out.println(query.setFirstResult(startIndex).setMaxResults(pageSize).getResultList().size());
         return query.setFirstResult(startIndex).setMaxResults(pageSize).getResultList();
     }
 
