@@ -8,7 +8,7 @@
 
 📍***Backend*** : **SpringBoot**, **Java11**, **JPA**
 
-📍***Datebase*** : **MySQL / MariaDB**, **Redis**
+📍***Datebase*** : **MariaDB**
 
 
 ## 🛠 기능 엿보기   
