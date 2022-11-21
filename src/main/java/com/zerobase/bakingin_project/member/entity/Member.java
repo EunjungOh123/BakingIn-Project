@@ -4,10 +4,7 @@ import com.zerobase.bakingin_project.board.entity.Board;
 import com.zerobase.bakingin_project.entity.BaseTimeEntity;
 import com.zerobase.bakingin_project.member.type.MemberRole;
 import com.zerobase.bakingin_project.member.type.MemberStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -44,4 +41,9 @@ public class Member extends BaseTimeEntity {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             orphanRemoval = true)
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true)
+    private List<Board> comment = new ArrayList<>();
 }

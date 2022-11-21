@@ -5,16 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberStatusException extends RuntimeException{
+public class MemberException extends RuntimeException{
     private MemberErrorCode memberErrorCode;
     private String message;
 
-    public MemberStatusException(MemberErrorCode memberErrorCode){
+    public MemberException(MemberErrorCode memberErrorCode){
         this.memberErrorCode = memberErrorCode;
         this.message = memberErrorCode.getValue();
     }

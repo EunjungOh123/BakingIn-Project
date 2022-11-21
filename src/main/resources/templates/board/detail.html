@@ -10,9 +10,19 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <link th:href="@{/css/header.css}" rel="stylesheet">
     <script>
-        $(document).ready(function() {
-            $('form[name=deleteForm]').on('submit', function() {
+        $(document).ready(function () {
+            $('form[name=deleteForm]').on('submit', function () {
                 if (!confirm(' 레시피를 삭제하시겠습니까? ')) {
+                    return false;
+                }
+            });
+            $('form[name=deleteCommentForm]').on('submit', function () {
+                if (!confirm(' 댓글을 삭제하시겠습니까? ')) {
+                    return false;
+                }
+            });
+            $('form[name=addForm]').on('submit', function () {
+                if (!confirm(' 댓글을 등록하시겠습니까? ')) {
                     return false;
                 }
             });
@@ -21,10 +31,24 @@
     <style>
         .inline-div {
             margin-top: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 2rem;
         }
+
         .table {
             margin-bottom: 0rem;
+        }
+
+        .add-comment {
+            margin-top: 3rem;
+        }
+
+        .comment-submit {
+            margin-top: 2rem;
+        }
+
+        .card {
+            margin-top: 3rem;
+            margin-bottom: 8rem;
         }
     </style>
 </head>
@@ -33,85 +57,138 @@
     <div th:replace="fragments/header :: header"></div>
 </header>
 <div class="col-md-10 col-md-offset-1">
-        <div class="inline-div">
-            <a sec:authorize="isAuthenticated()" th:href="@{/board/update(id = ${boardDto.id})}"
-               th:if="${boardDto.writer != null and #authentication.name == boardDto.writer.userId}"
-               class="btn btn-success btn-sm">
-                <span class="glyphicon glyphicon-edit"></span> 레시피 수정
-            </a>
-            <a href="/board/list" class="btn btn-warning btn-sm">
-                <span class="glyphicon glyphicon-th-list"></span> 레시피 목록</a>
-        </div>
-        <div class="panel panel-default panel-table">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col col-xs-6">
-                        <h3 class="panel-title" style="font-weight: bold">레시피 상세보기</h3>
-                    </div>
+    <div class="inline-div">
+        <a sec:authorize="isAuthenticated()" th:href="@{/board/update(id = ${boardDto.id})}"
+           th:if="${boardDto.writer != null and #authentication.name == boardDto.writer.userId}"
+           class="btn btn-success btn-sm">
+            <span class="glyphicon glyphicon-edit"></span> 레시피 수정
+        </a>
+        <a href="/board/list" class="btn btn-warning btn-sm">
+            <span class="glyphicon glyphicon-th-list"></span> 레시피 목록</a>
+    </div>
+    <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col col-xs-6">
+                    <h3 class="panel-title" style="font-weight: bold">레시피 상세보기</h3>
                 </div>
             </div>
-            <div class="detail">
-                <table class="table table-list">
-                    <tbody>
-                    <tr>
-                        <th>제목</th>
-                        <td class="table-input">
-                            <div th:text="${boardDto.title}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>카테고리</th>
-                        <td class="table-input">
-                            <div th:text="${boardDto.category.categoryName}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>등록일</th>
-                        <td class="table-input">
-                            <div th:text="${#temporals.format(boardDto.createAt, 'yyyy-MM-dd HH:mm')}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>작성자</th>
-                        <td class="table-input">
-                            <div th:text="${boardDto.writer.userId}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>조회수</th>
-                        <td class="table-input">
-                            <div th:text="${boardDto.views}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>간략한 소개</th>
-                        <td class="table-input">
-                            <div th:text="${boardDto.summary}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>필요한 재료</th>
-                        <td class="table-input">
-                            <div th:utext="${boardDto.ingredient}"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>설명</th>
-                        <td class="table-input">
-                            <div th:utext="${boardDto.contents}"></div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
+        <div class="detail">
+            <table class="table table-list">
+                <tbody>
+                <tr>
+                    <th>제목</th>
+                    <td class="table-input">
+                        <div th:text="${boardDto.title}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>카테고리</th>
+                    <td class="table-input">
+                        <div th:text="${boardDto.category.categoryName}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>등록일</th>
+                    <td class="table-input">
+                        <div th:text="${#temporals.format(boardDto.createAt, 'yyyy-MM-dd HH:mm')}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>작성자</th>
+                    <td class="table-input">
+                        <div th:text="${boardDto.writer.userId}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>조회수</th>
+                    <td class="table-input">
+                        <div th:text="${boardDto.views}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>간략한 소개</th>
+                    <td class="table-input">
+                        <div th:text="${boardDto.summary}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>필요한 재료</th>
+                    <td class="table-input">
+                        <div th:utext="${boardDto.ingredient}"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>설명</th>
+                    <td class="table-input">
+                        <div th:utext="${boardDto.contents}"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <form name="deleteForm" method="post" action="/board/delete">
         <input type="hidden" name="id" th:value="${boardDto.id}"/>
         <button class="btn btn-danger btn-sm"
                 th:if="${boardDto.writer != null and #authentication.name == boardDto.writer.userId}"
                 style="float: right;">
-            <span class="glyphicon glyphicon-remove"></span> 레시피 삭제</button>
+            <span class="glyphicon glyphicon-remove"></span> 레시피 삭제
+        </button>
     </form>
+    <form method="post" name="heartForm" th:action="@{/board/like/post/{id}(id = ${boardDto.id})}">
+        <button type="submit" class="btn btn-sm"
+                style="background-color: #FF9494; border-radius: 2em; color: #FFFFFF; float: left">
+            <span th:text="${boardLikeCnt}" class="glyphicon glyphicon-heart"></span>
+        </button>
+    </form>
+</div>
+<div sec:authorize="isAuthenticated()" class="add-comment col-md-10 col-md-offset-1">
+    <form name="addForm" action="/board/comment/add" method="post">
+        <div class="form-group">
+            <textarea name="comment" id="comment" class="form-control" placeholder='Reply a Comment' rows="5"
+                      required></textarea>
+            <input type="hidden" id="boardId" name="boardId" th:value="${boardDto.id}">
+            <button type="submit" class="btn comment-submit"
+                    style="background-color: #7A86B6; color: #FFFFFF; float: right">Reply
+                Comment
+            </button>
+        </div>
+    </form>
+</div>
+<div class="col-md-10 col-md-offset-1">
+    <div class="card text-dark">
+        <div class="card-body">
+            <h4 class="mb-0" style="font-weight: bold">댓글 (<span th:text="${commentsCount}"></span>)</h4>
+            <hr class="my-0" style="height: 2px;"/>
+            <div th:each="comment : ${commentList}" class="card-body">
+                <div class="comment-button">
+                    <form name="deleteCommentForm" method="post" action="/board/comment/delete">
+                        <button type="submit" class="btn btn-sm"
+                                style="background-color: #F15412; border-radius: 2em; color: #FFFFFF; float: right"
+                                th:if="${comment.writer != null and #authentication.name == comment.writer.userId}">
+                            <span class="glyphicon glyphicon-trash"></span> 삭제
+                        </button>
+                        <input type="hidden" name="commentId" th:value="${comment.id}"/>
+                        <input type="hidden" name="boardId" th:value="${comment.board.id}"/>
+                    </form>
+                    <a th:href="@{/board/comment/update/{id}(id= ${comment.id})}" class="btn btn-sm"
+                       style="background-color: #0AA1DD; border-radius: 2em; color: #FFFFFF; float: right"
+                       th:if="${comment.writer != null and #authentication.name == comment.writer.userId}">
+                        <span class="glyphicon glyphicon-edit"></span> 수정</a>
+                </div>
+                <h4 th:text="${comment.writer.userId}" class="fw-bold mb-1" style="font-weight: bold">Alexa Bennett</h4>
+                <div class="d-flex align-items-center mb-3">
+                    <p th:text="${#temporals.format(comment.createAt, 'yyyy-MM-dd HH:mm')}" class="mb-0">
+                        March 24, 2021
+                    </p>
+                </div>
+                <p class="mb-0" th:text="${comment.comment}">댓글입니다.</p>
+                <hr class="my-0"/>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

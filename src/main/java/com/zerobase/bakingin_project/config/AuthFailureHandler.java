@@ -1,6 +1,6 @@
 package com.zerobase.bakingin_project.config;
 
-import com.zerobase.bakingin_project.member.type.MemberErrorCode;
+import com.zerobase.bakingin_project.member.exception.MemberErrorCode;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;

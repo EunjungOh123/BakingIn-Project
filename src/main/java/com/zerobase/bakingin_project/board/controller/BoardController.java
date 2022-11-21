@@ -8,6 +8,7 @@ import com.zerobase.bakingin_project.board.model.BoardParam;
 import com.zerobase.bakingin_project.board.model.Pagination;
 import com.zerobase.bakingin_project.board.service.BoardService;
 import com.zerobase.bakingin_project.board.exception.BoardErrorCode;
+import com.zerobase.bakingin_project.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import java.security.Principal;
 public class BoardController {
     private final CategoryService categoryService;
     private final BoardService boardService;
+    private final CommentService commentService;
     @GetMapping("/add")
     public String add (Model model, Principal user) {
         if(user == null) {
@@ -56,7 +58,8 @@ public class BoardController {
         return "board/list";
     }
     @GetMapping("/detail")
-    public String detail (@RequestParam Long id, Model model, HttpServletRequest request,  HttpServletResponse response) {
+    public String detail (@RequestParam Long id, Model model,
+                          HttpServletRequest request,  HttpServletResponse response) {
 
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
@@ -84,8 +87,9 @@ public class BoardController {
             response.addCookie(newCookie);
         }
         BoardDto boardDto = boardService.recipeDetail(id);
-
         model.addAttribute("boardDto", boardDto);
+        model.addAttribute("commentList", commentService.list(boardDto.getId()));
+        model.addAttribute("commentsCount", commentService.listCount(boardDto.getId()));
         return "board/detail";
     }
     @PostMapping("/delete")

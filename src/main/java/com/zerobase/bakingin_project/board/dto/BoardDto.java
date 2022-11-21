@@ -26,6 +26,7 @@ public class BoardDto {
     private long views;
     private LocalDateTime createAt;
     private boolean deleteBoard;
+    private int commentSize;
     public static BoardDto fromEntity (Board board) {
         return BoardDto.builder()
                 .id(board.getId())
@@ -38,6 +39,7 @@ public class BoardDto {
                 .createAt(board.getCreateAt())
                 .views(board.getViews())
                 .deleteBoard(board.isDeleteBoard())
+                .commentSize(board.getComments().size())
                 .build();
     }
 }

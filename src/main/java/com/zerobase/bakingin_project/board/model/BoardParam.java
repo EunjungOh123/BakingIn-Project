@@ -16,13 +16,11 @@ public class BoardParam {
                 .fromPath("/board/list");
         if(categoryId != null) {
             builder.queryParam("categoryId", categoryId);
-            System.out.println("카테고리 null 아니야");
         }
         if(searchType != null) {
             builder.queryParam("searchType", searchType)
                     .queryParam("searchValue", searchValue);
         }
-        System.out.println("카테고리 null 맞아");
         return builder.toUriString();
     }
 }
