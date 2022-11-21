@@ -1,6 +1,7 @@
 package com.zerobase.bakingin_project.board.entity;
 
 import com.zerobase.bakingin_project.admin.category.entity.RecipeCategory;
+import com.zerobase.bakingin_project.board.like.entity.Heart;
 import com.zerobase.bakingin_project.comment.entity.Comment;
 import com.zerobase.bakingin_project.entity.BaseTimeEntity;
 import com.zerobase.bakingin_project.member.entity.Member;
@@ -10,10 +11,13 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Builder
-@Data
+@Setter
+@Getter
 @Entity
 @Table
 @NoArgsConstructor
@@ -53,6 +57,13 @@ public class Board extends BaseTimeEntity {
             orphanRemoval = true
     )
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "board",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    private Set<Heart> likes = new HashSet<>();
 
     private boolean deleteBoard;
 }

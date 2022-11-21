@@ -2,15 +2,13 @@ package com.zerobase.bakingin_project.board.like.entity;
 
 import com.zerobase.bakingin_project.board.entity.Board;
 import com.zerobase.bakingin_project.member.entity.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 @Entity
 @Table
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

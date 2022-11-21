@@ -17,16 +17,4 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
      * deleteBoard == true 해당되는 모든 게시물 리턴
      */
     List<Board> findAllByDeleteBoardIsTrue();
-
-    /**
-     * 조회수 top5
-     */
-//    List<Board> findTop5ByOrdOrderByViewsDesc();
-    /**
-     *  댓글수 top5
-     */
-
-    /**
-     *  좋아요 top5
-     */
 }

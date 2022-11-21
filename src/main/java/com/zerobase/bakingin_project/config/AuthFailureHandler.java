@@ -22,7 +22,7 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 
         if (exception instanceof UsernameNotFoundException) {
-            errorMessage = MemberErrorCode.USER_NOT_EXIST.getValue();
+            errorMessage = MemberErrorCode.USER_NOT_EXIST_FAIL_LOGIN.getValue();
         } else if (exception instanceof BadCredentialsException) {
             errorMessage = MemberErrorCode.USER_PASSWORD_NOT_CORRECT.getValue();
         } else if (exception instanceof InternalAuthenticationServiceException) {

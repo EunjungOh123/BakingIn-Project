@@ -8,16 +8,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin/category")
 public class AdminCategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping("/admin/category/recipe-list")
+    @GetMapping("/recipe-list")
     public String categoryList(Model model) {
 
         List<RecipeCategoryDto> list = categoryService.list();
@@ -25,7 +27,7 @@ public class AdminCategoryController {
 
         return "admin/category/recipe-list";
     }
-    @PostMapping("/admin/category/add")
+    @PostMapping("/add")
     public String add(InputRecipeCategory categoryDto) {
 
         categoryService.add(categoryDto);
@@ -33,13 +35,13 @@ public class AdminCategoryController {
         return "redirect:/admin/category/recipe-list";
     }
 
-    @PostMapping("/admin/category/update")
+    @PostMapping("/update")
     public String update(InputRecipeCategory categoryDto) {
         categoryService.update(categoryDto);
         return "redirect:/admin/category/recipe-list";
     }
 
-    @PostMapping("/admin/category/delete")
+    @PostMapping("/delete")
     public String delete(InputRecipeCategory categoryDto) {
 
         categoryService.delete(categoryDto.getId());

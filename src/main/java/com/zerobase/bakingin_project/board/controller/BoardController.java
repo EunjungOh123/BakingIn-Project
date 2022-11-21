@@ -4,6 +4,7 @@ import com.zerobase.bakingin_project.admin.category.service.CategoryService;
 import com.zerobase.bakingin_project.board.dto.BoardDto;
 import com.zerobase.bakingin_project.board.dto.InputBoard;
 import com.zerobase.bakingin_project.board.exception.BoardException;
+import com.zerobase.bakingin_project.board.like.service.HeartService;
 import com.zerobase.bakingin_project.board.model.BoardParam;
 import com.zerobase.bakingin_project.board.model.Pagination;
 import com.zerobase.bakingin_project.board.service.BoardService;
@@ -27,6 +28,7 @@ public class BoardController {
     private final CategoryService categoryService;
     private final BoardService boardService;
     private final CommentService commentService;
+    private final HeartService heartService;
     @GetMapping("/add")
     public String add (Model model, Principal user) {
         if(user == null) {
@@ -90,6 +92,7 @@ public class BoardController {
         model.addAttribute("boardDto", boardDto);
         model.addAttribute("commentList", commentService.list(boardDto.getId()));
         model.addAttribute("commentsCount", commentService.listCount(boardDto.getId()));
+        model.addAttribute("boardLikeCnt", heartService.countHeartByBoard(id));
         return "board/detail";
     }
     @PostMapping("/delete")
